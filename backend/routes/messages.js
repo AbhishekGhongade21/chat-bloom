@@ -1,5 +1,31 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+
+// File upload configuration for chat files
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/chat-files/');
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, req.user._id + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  // Accept all file types for now, but you can restrict here
+  cb(null, true);
+};
+
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+  limits: {
+    fileSize: 10 * 1024 * 1024 // 10MB limit
+  }
+});
 
 const {
   sendMessage,
@@ -9,7 +35,9 @@ const {
   reactToMessage,
   forwardMessage,
   searchMessages,
-  getUnreadCount
+  getUnreadCount,
+  markAsRead,
+  uploadFile
 } = require('../controllers/messageController');
 
 const { protect, requireChatParticipant, basicRateLimit } = require('../middleware/auth');
@@ -22,11 +50,18 @@ const { protect, requireChatParticipant, basicRateLimit } = require('../middlewa
  */
 
 /**
- * @route   POST /api/messages/:chatId
  * @desc    Send a message
+ * @route   POST /api/messages/:chatId
  * @access  Private
  */
 router.post('/:chatId', protect, sendMessage);
+
+/**
+ * @route   GET /api/messages/unread-count
+ * @desc    Get unread messages count for all chats
+ * @access  Private
+ */
+router.get('/unread-count', protect, getUnreadCount);
 
 /**
  * @route   GET /api/messages/:chatId
@@ -68,33 +103,20 @@ router.delete('/:id/react/:emoji', protect, reactToMessage);
  * @desc    Mark messages as read
  * @access  Private
  */
-router.post('/:chatId/read', protect, (req, res) => {
-  // This would need to be implemented in the controller
-  res.status(501).json({ message: 'Not implemented yet' });
-});
+router.post('/:chatId/read', protect, markAsRead);
 
 /**
  * @route   GET /api/messages/:chatId/search
  * @desc    Search messages in a chat
  * @access  Private
  */
-router.get('/:chatId/search', protect, basicRateLimit(20, 60000), searchMessages);
+router.get('/:chatId/search', protect, basicRateLimit(100, 60000), searchMessages);
 
 /**
  * @route   POST /api/messages/:chatId/file
  * @desc    Upload file to chat
  * @access  Private
  */
-router.post('/:chatId/file', protect, (req, res) => {
-  // This would need to be implemented in the controller
-  res.status(501).json({ message: 'Not implemented yet' });
-});
-
-/**
- * @route   GET /api/messages/unread-count
- * @desc    Get unread messages count for all chats
- * @access  Private
- */
-router.get('/unread-count', protect, getUnreadCount);
+router.post('/:chatId/file', protect, upload.single('file'), uploadFile);
 
 module.exports = router;

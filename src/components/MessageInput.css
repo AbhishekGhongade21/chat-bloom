@@ -17,20 +17,21 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 25px;
   padding: 8px;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .input-wrapper:focus-within {
   background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .emoji-button {
   width: 36px;
   height: 36px;
-  border: none;
-  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.7);
   border-radius: 50%;
   cursor: pointer;
@@ -38,7 +39,8 @@
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
 }
 
 .emoji-button svg {
@@ -47,9 +49,14 @@
 }
 
 .emoji-button:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
   color: white;
   transform: scale(1.1);
+}
+
+.emoji-button:active {
+  transform: scale(0.95);
 }
 
 .message-input {
@@ -69,7 +76,7 @@
 .send-button {
   width: 36px;
   height: 36px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.5);
   border-radius: 50%;
@@ -78,8 +85,9 @@
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform: rotate(-45deg);
+  backdrop-filter: blur(10px);
 }
 
 .send-button svg {
@@ -89,6 +97,7 @@
 
 .send-button.active {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: rgba(255, 255, 255, 0.3);
   color: white;
   transform: rotate(-45deg) scale(1.05);
 }
@@ -96,6 +105,10 @@
 .send-button:hover.active {
   transform: rotate(-45deg) scale(1.1);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.send-button:active {
+  transform: rotate(-45deg) scale(0.95);
 }
 
 .send-button:disabled {
@@ -174,7 +187,7 @@
 .voice-record-btn {
   width: 36px;
   height: 36px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.7);
   border-radius: 50%;
@@ -183,7 +196,8 @@
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
 }
 
 .voice-mode-btn svg,
@@ -193,32 +207,43 @@
 }
 
 .voice-mode-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
   color: white;
   transform: scale(1.1);
 }
 
+.voice-mode-btn:active {
+  transform: scale(0.95);
+}
+
 .voice-record-btn.recording {
   background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.3);
   color: #ef4444;
   animation: recording-pulse 1.4s infinite;
 }
 
 .voice-record-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.2);
   color: white;
-  transform: scale(1.05);
+  transform: scale(1.1);
+}
+
+.voice-record-btn:active {
+  transform: scale(0.95);
 }
 
 .voice-record-btn.recording:hover {
   background: rgba(239, 68, 68, 0.3);
+  border-color: rgba(239, 68, 68, 0.4);
   color: #ef4444;
 }
 
 .file-share-btn {
   width: 36px;
   height: 36px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.7);
   border-radius: 50%;
@@ -227,7 +252,8 @@
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
 }
 
 .file-share-btn svg {
@@ -236,9 +262,14 @@
 }
 
 .file-share-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
   color: white;
   transform: scale(1.1);
+}
+
+.file-share-btn:active {
+  transform: scale(0.95);
 }
 
 /* Light Theme */

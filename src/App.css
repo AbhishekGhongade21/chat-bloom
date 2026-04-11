@@ -11,21 +11,32 @@
   top: 10px;
   right: 10px;
   z-index: 1000;
-  padding: 8px 16px;
+  width: 36px;
+  height: 36px;
+  padding: 8px;
   background: rgba(239, 68, 68, 0.9);
   border: 1px solid rgba(239, 68, 68, 1);
   color: white;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  border-radius: 50%;
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logout-btn:hover {
   background: rgba(239, 68, 68, 1);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.logout-btn:active {
+  transform: translateY(0) scale(0.98);
 }
 
 /* Login Screen */
@@ -49,6 +60,7 @@
   max-width: 400px;
   width: 90%;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .login-container h1 {
@@ -64,20 +76,34 @@
 }
 
 .login-container button {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
   padding: 12px 30px;
-  border-radius: 10px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 14px;
   font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
 }
 
 .login-container button:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.login-container button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Auth Forms */
@@ -101,35 +127,44 @@
   color: white;
   font-size: 1rem;
   outline: none;
-  transition: all 0.2s ease;
-}
-
-.form-group input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .form-group input:focus {
   border-color: rgba(255, 255, 255, 0.5);
   background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.01);
 }
 
 .auth-form button[type="submit"] {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 8px;
-  font-size: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: white;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
 }
 
 .auth-form button[type="submit"]:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.auth-form button[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .auth-switch {
@@ -140,29 +175,21 @@
 }
 
 .auth-switch button {
-  background: none;
+  background: transparent;
   border: none;
   color: white;
   font-weight: 600;
   cursor: pointer;
   text-decoration: underline;
-  padding: 0;
+  padding: 4px 8px;
   margin-left: 5px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 14px;
 }
 
 .auth-switch button:hover {
-  background: none;
+  background: rgba(255, 255, 255, 0.1);
   transform: none;
-}
-
-.auth-error {
-  background: rgba(239, 68, 68, 0.8);
-  border: 1px solid rgba(239, 68, 68, 0.9);
-  color: white;
-  padding: 10px 15px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  text-align: center;
 }
 
 /* Modal Styles */
@@ -178,6 +205,7 @@
   align-items: center;
   justify-content: center;
   z-index: 2000;
+  animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal-container {
@@ -189,6 +217,7 @@
   width: 90%;
   max-width: 500px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal-header {
@@ -251,17 +280,14 @@
   color: white;
   font-size: 1rem;
   outline: none;
-  transition: all 0.2s ease;
-}
-
-.modal-form input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal-form input:focus,
 .modal-form select:focus {
   border-color: rgba(255, 255, 255, 0.5);
   background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.01);
 }
 
 .modal-form select {
@@ -282,94 +308,71 @@
 .modal-actions button {
   flex: 1;
   padding: 12px;
-  border: none;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .modal-actions button[type="button"] {
-  background: rgba(255, 255, 255, 0.1);
+  padding: 12px;
   border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
   color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
 }
 
 .modal-actions button[type="button"]:hover {
   background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal-actions button[type="button"]:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .modal-actions button[type="submit"] {
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: rgba(255, 255, 255, 0.3);
   color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
 }
 
 .modal-actions button[type="submit"]:hover {
   background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
 }
 
-/* Error Banner */
-.error-banner {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(239, 68, 68, 0.9);
-  color: white;
-  padding: 12px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 1000;
-  backdrop-filter: blur(10px);
-}
-
-.error-banner button {
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-  padding: 0;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: background 0.2s ease;
-}
-
-.error-banner button:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* Connection Status */
-.connection-status {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: 8px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-  font-size: 14px;
-  font-weight: 500;
-  backdrop-filter: blur(10px);
-}
-
-.connection-status.offline {
-  background: rgba(251, 146, 60, 0.9);
-  color: white;
-}
-
-.connection-status.online {
-  background: rgba(34, 197, 94, 0.9);
-  color: white;
+.modal-actions button[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Mobile Responsive */
@@ -384,10 +387,5 @@
   
   .login-container h1 {
     font-size: 2rem;
-  }
-  
-  .error-banner {
-    padding: 10px 15px;
-    font-size: 14px;
   }
 }

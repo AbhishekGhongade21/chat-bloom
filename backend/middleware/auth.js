@@ -208,7 +208,7 @@ const requireGroupAdmin = async (req, res, next) => {
  * Rate limiting middleware (basic implementation)
  * You might want to use a more sophisticated rate limiting library like express-rate-limit
  */
-const basicRateLimit = (maxRequests = 100, windowMs = 15 * 60 * 1000) => {
+const basicRateLimit = (maxRequests = 1000, windowMs = 60 * 1000) => {
   const requests = new Map();
 
   return (req, res, next) => {

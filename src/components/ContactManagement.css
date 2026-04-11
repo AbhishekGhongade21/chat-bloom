@@ -10,6 +10,7 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .contact-management-modal {
@@ -23,6 +24,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal-header {
@@ -52,12 +54,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .close-btn:hover {
   background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(90deg);
+}
+
+.close-btn:active {
+  transform: scale(0.95);
 }
 
 .contact-info {
@@ -128,7 +134,7 @@
   color: rgba(255, 255, 255, 0.6);
   cursor: pointer;
   font-size: 14px;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-bottom: 2px solid transparent;
 }
 
@@ -217,7 +223,7 @@
   padding: 8px 16px;
   font-size: 13px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .block-btn.blocked {
@@ -234,7 +240,13 @@
 
 .block-btn:hover,
 .mute-btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.block-btn:active,
+.mute-btn:active {
+  transform: translateY(0);
 }
 
 .disappearing-select {
@@ -261,11 +273,16 @@
   padding: 8px 16px;
   font-size: 13px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .report-btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+}
+
+.report-btn:active {
+  transform: translateY(0);
 }
 
 .favorite-btn,
@@ -279,15 +296,22 @@
   padding: 8px 16px;
   font-size: 13px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .favorite-btn:hover,
 .share-btn:hover,
 .export-btn:hover,
 .clear-btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px) scale(1.02);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.favorite-btn:active,
+.share-btn:active,
+.export-btn:active,
+.clear-btn:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .support-item.danger {
@@ -307,12 +331,17 @@
   padding: 8px 16px;
   font-size: 13px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .delete-btn:hover {
   background: rgba(239, 68, 68, 0.3);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.delete-btn:active {
+  transform: translateY(0);
 }
 
 /* Light Theme */

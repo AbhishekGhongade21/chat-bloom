@@ -17,7 +17,10 @@ const sendMessage = async (req, res) => {
   try {
     // Get chatId from URL params first, then from body as fallback
     const chatId = req.params.chatId || req.body.chatId;
-    const { content, messageType = 'text', replyTo, file } = req.body;
+    const { text, content, messageType = 'text', replyTo, file } = req.body;
+    
+    // Support both 'text' and 'content' for compatibility
+    const messageContent = text || content;
 
     // Validate required fields
     if (!chatId) {
@@ -36,7 +39,7 @@ const sendMessage = async (req, res) => {
     }
 
     // For text messages, content is required
-    if (messageType === 'text' && (!content || content.trim().length === 0)) {
+    if (messageType === 'text' && (!messageContent || messageContent.trim().length === 0)) {
       return res.status(400).json({
         success: false,
         message: 'Message content is required for text messages'
@@ -60,9 +63,10 @@ const sendMessage = async (req, res) => {
       });
     }
 
-    const isParticipant = chat.participants.some(participant => 
-      participant.user.toString() === req.user._id.toString()
-    );
+    const isParticipant = chat.participants.some(participant => {
+      const participantId = participant.user ? participant.user.toString() : participant.toString();
+      return participantId === req.user._id.toString();
+    });
 
     if (!isParticipant) {
       return res.status(403).json({
@@ -87,8 +91,8 @@ const sendMessage = async (req, res) => {
       replyTo
     };
 
-    if (content) {
-      messageData.content = content.trim();
+    if (messageContent) {
+      messageData.content = messageContent.trim();
     }
 
     if (file) {
@@ -215,7 +219,10 @@ const getMessages = async (req, res) => {
 const editMessage = async (req, res) => {
   try {
     const { id } = req.params;
-    const { content } = req.body;
+    const { text, content } = req.body;
+    
+    // Support both 'text' and 'content' for compatibility
+    const messageContent = text || content;
 
     // Validate message ID
     if (!validator.isMongoId(id)) {
@@ -226,14 +233,14 @@ const editMessage = async (req, res) => {
     }
 
     // Validate content
-    if (!content || content.trim().length === 0) {
+    if (!messageContent || messageContent.trim().length === 0) {
       return res.status(400).json({
         success: false,
         message: 'Message content is required'
       });
     }
 
-    if (content.length > 4000) {
+    if (messageContent.length > 4000) {
       return res.status(400).json({
         success: false,
         message: 'Message content cannot exceed 4000 characters'
@@ -275,7 +282,7 @@ const editMessage = async (req, res) => {
     }
 
     // Edit message
-    await message.editMessage(content.trim());
+    await message.editMessage(messageContent.trim());
 
     // Populate and return updated message
     const updatedMessage = await Message.findById(id)
@@ -365,7 +372,9 @@ const deleteMessage = async (req, res) => {
  */
 const reactToMessage = async (req, res) => {
   try {
-    const { messageId, emoji } = req.body;
+    const { id } = req.params;
+    const { emoji } = req.body;
+    const messageId = id;
 
     // Validate inputs
     if (!validator.isMongoId(messageId)) {
@@ -674,6 +683,192 @@ const getUnreadCount = async (req, res) => {
   }
 };
 
+/**
+ * @desc    Mark messages as read
+ * @route   POST /api/messages/:chatId/read
+ * @access  Private
+ */
+const markAsRead = async (req, res) => {
+  try {
+    const { chatId } = req.params;
+    const { messageIds } = req.body;
+
+    // Validate chat ID
+    if (!validator.isMongoId(chatId)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid chat ID format'
+      });
+    }
+
+    // Check if user is participant of the chat
+    const chat = await Chat.findById(chatId);
+    if (!chat) {
+      return res.status(404).json({
+        success: false,
+        message: 'Chat not found'
+      });
+    }
+
+    const isParticipant = chat.participants.some(participant => 
+      participant.user.toString() === req.user._id.toString()
+    );
+
+    if (!isParticipant) {
+      return res.status(403).json({
+        success: false,
+        message: 'You are not a participant of this chat'
+      });
+    }
+
+    // If no specific message IDs provided, mark all unread messages as read
+    if (!messageIds || messageIds.length === 0) {
+      await Message.updateMany(
+        {
+          chatId,
+          senderId: { $ne: req.user._id },
+          'readBy.user': { $ne: req.user._id },
+          isDeleted: false
+        },
+        {
+          $push: {
+            readBy: {
+              user: req.user._id,
+              readAt: new Date()
+            }
+          }
+        }
+      );
+
+      return res.status(200).json({
+        success: true,
+        message: 'All messages marked as read'
+      });
+    }
+
+    // Mark specific messages as read
+    const updatePromises = messageIds.map(messageId => 
+      Message.updateOne(
+        {
+          _id: messageId,
+          chatId,
+          'readBy.user': { $ne: req.user._id }
+        },
+        {
+          $push: {
+            readBy: {
+              user: req.user._id,
+              readAt: new Date()
+            }
+          }
+        }
+      )
+    );
+
+    await Promise.all(updatePromises);
+
+    res.status(200).json({
+      success: true,
+      message: 'Messages marked as read',
+      markedCount: messageIds.length
+    });
+
+  } catch (error) {
+    console.error('Mark as read error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error marking messages as read'
+    });
+  }
+};
+
+/**
+ * @desc    Upload file to chat
+ * @route   POST /api/messages/:chatId/file
+ * @access  Private
+ */
+const uploadFile = async (req, res) => {
+  try {
+    const { chatId } = req.params;
+
+    // Validate chat ID
+    if (!validator.isMongoId(chatId)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid chat ID format'
+      });
+    }
+
+    // Check if user is participant of the chat
+    const chat = await Chat.findById(chatId);
+    if (!chat) {
+      return res.status(404).json({
+        success: false,
+        message: 'Chat not found'
+      });
+    }
+
+    const isParticipant = chat.participants.some(participant => 
+      participant.user.toString() === req.user._id.toString()
+    );
+
+    if (!isParticipant) {
+      return res.status(403).json({
+        success: false,
+        message: 'You are not a participant of this chat'
+      });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: 'No file uploaded'
+      });
+    }
+
+    // Create file object
+    const fileData = {
+      filename: req.file.filename,
+      originalName: req.file.originalname,
+      mimetype: req.file.mimetype,
+      size: req.file.size,
+      url: `/uploads/chat-files/${req.file.filename}`
+    };
+
+    // Create message with file
+    const message = await Message.create({
+      senderId: req.user._id,
+      chatId,
+      messageType: req.file.mimetype.startsWith('image/') ? 'image' : 
+                req.file.mimetype.startsWith('video/') ? 'video' :
+                req.file.mimetype.startsWith('audio/') ? 'audio' : 'file',
+      content: req.file.originalname,
+      file: fileData
+    });
+
+    // Populate message details
+    await message.populate('senderId', 'name profilePicture');
+
+    // Update chat's last message
+    await Chat.findByIdAndUpdate(chatId, {
+      lastMessage: message._id
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'File uploaded successfully',
+      data: message
+    });
+
+  } catch (error) {
+    console.error('Upload file error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error uploading file'
+    });
+  }
+};
+
 module.exports = {
   sendMessage,
   getMessages,
@@ -682,5 +877,7 @@ module.exports = {
   reactToMessage,
   forwardMessage,
   searchMessages,
-  getUnreadCount
+  getUnreadCount,
+  markAsRead,
+  uploadFile
 };

@@ -80,7 +80,7 @@ router.put('/status', protect, updateStatus);
  * @desc    Get all users (with pagination and search)
  * @access  Private
  */
-router.get('/all', protect, basicRateLimit(50, 60000), getAllUsers);
+router.get('/all', protect, basicRateLimit(200, 60000), getAllUsers);
 
 /**
  * @route   GET /api/users/online
@@ -88,13 +88,6 @@ router.get('/all', protect, basicRateLimit(50, 60000), getAllUsers);
  * @access  Private
  */
 router.get('/online', protect, getOnlineUsers);
-
-/**
- * @route   GET /api/users/search
- * @desc    Search users
- * @access  Private
- */
-router.get('/search', protect, basicRateLimit(30, 60000), searchUsers);
 
 /**
  * @route   GET /api/users/:id

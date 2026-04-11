@@ -6,7 +6,7 @@
   border-right: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease, width 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 }
 
@@ -56,11 +56,10 @@
 
 .theme-toggle,
 .menu-toggle,
-.create-chat-btn,
 .profile-btn {
-  width: 32px;
-  height: 32px;
-  border: none;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.1);
   color: white;
   border-radius: 8px;
@@ -69,25 +68,44 @@
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
 }
 
 .theme-toggle:hover,
 .menu-toggle:hover,
-.create-chat-btn:hover,
 .profile-btn:hover {
   background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.theme-toggle:active,
+.menu-toggle:active,
+.profile-btn:active {
+  transform: translateY(0) scale(0.95);
 }
 
 .create-chat-btn {
-  font-size: 20px;
+  width: 36px;
+  height: 36px;
+  font-size: 16px;
   font-weight: bold;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: white;
 }
 
 .create-chat-btn:hover {
   background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.create-chat-btn:active {
+  transform: translateY(0) scale(0.95);
 }
 
 .search-container {
@@ -98,22 +116,21 @@
 .search-input {
   width: 100%;
   padding: 12px 40px 12px 16px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
   color: white;
   font-size: 14px;
   outline: none;
-  transition: all 0.2s ease;
-}
-
-.search-input::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
 }
 
 .search-input:focus {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .search-icon {
@@ -138,18 +155,20 @@
   padding: 12px;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   margin-bottom: 4px;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .chat-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(4px) scale(1.02);
 }
 
 .chat-item.active {
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.3);
+  transform: translateX(4px);
 }
 
 .chat-avatar {
@@ -168,6 +187,11 @@
   color: white;
   font-weight: bold;
   font-size: 18px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chat-item:hover .avatar-circle {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .online-indicator {

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ChatHeader from './ChatHeader';
 import MessageBubble from './MessageBubble';
 import MessageInput from './MessageInput';
@@ -23,9 +23,18 @@ const ChatWindow = ({
   onTyping
 }) => {
   const messagesEndRef = useRef(null);
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (shouldAutoScroll) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleScroll = (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target;
+    const isAtBottom = scrollHeight - scrollTop - clientHeight < 50;
+    setShouldAutoScroll(isAtBottom);
   };
 
   useEffect(() => {
@@ -55,7 +64,19 @@ const ChatWindow = ({
       />
       
       <div className="messages-container">
-        <div className="messages-list">
+        <div className="messages-list" onScroll={handleScroll}>
+          <div ref={messagesEndRef} />
+          
+          {isTyping && (
+            <div className="typing-indicator">
+              <div className="typing-bubble">
+                <div className="typing-dot"></div>
+                <div className="typing-dot"></div>
+                <div className="typing-dot"></div>
+              </div>
+            </div>
+          )}
+          
           {messages?.map((message) => (
             <MessageBubble
               key={message.id}
@@ -70,18 +91,6 @@ const ChatWindow = ({
               isChannel={chat.isChannel}
             />
           ))}
-          
-          {isTyping && (
-            <div className="typing-indicator">
-              <div className="typing-bubble">
-                <div className="typing-dot"></div>
-                <div className="typing-dot"></div>
-                <div className="typing-dot"></div>
-              </div>
-            </div>
-          )}
-          
-          <div ref={messagesEndRef} />
         </div>
       </div>
       

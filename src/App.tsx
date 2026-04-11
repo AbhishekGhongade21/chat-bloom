@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 import Sidebar from './components/Sidebar';
 import ChatWindow from './components/ChatWindow';
 import UserProfile from './components/UserProfile';
@@ -22,7 +23,6 @@ const App = () => {
   const [showLogin, setShowLogin] = useState(true);
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
   const [registerForm, setRegisterForm] = useState({ name: '', email: '', password: '', confirmPassword: '' });
-  const [authError, setAuthError] = useState('');
   const [showCreateChat, setShowCreateChat] = useState(false);
   const [createChatForm, setCreateChatForm] = useState({ isGroupChat: false, chatName: '', participantEmail: '' });
 
@@ -51,7 +51,6 @@ const App = () => {
   // Handle login
   const handleLogin = async (e) => {
     e.preventDefault();
-    setAuthError('');
     
     try {
       const { authAPI } = await import('./services/api');
@@ -66,22 +65,42 @@ const App = () => {
       }
     } catch (err) {
       console.error('Login failed:', err);
-      setAuthError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: err.response?.data?.message || 'Login failed. Please check your credentials.',
+        confirmButtonColor: '#667eea',
+        background: 'rgba(255, 255, 255, 0.95)',
+        backdrop: 'rgba(0, 0, 0, 0.5)'
+      });
     }
   };
 
   // Handle registration
   const handleRegister = async (e) => {
     e.preventDefault();
-    setAuthError('');
     
     if (registerForm.password !== registerForm.confirmPassword) {
-      setAuthError('Passwords do not match');
+      Swal.fire({
+        icon: 'error',
+        title: 'Password Mismatch',
+        text: 'Passwords do not match',
+        confirmButtonColor: '#667eea',
+        background: 'rgba(255, 255, 255, 0.95)',
+        backdrop: 'rgba(0, 0, 0, 0.5)'
+      });
       return;
     }
     
     if (registerForm.password.length < 6) {
-      setAuthError('Password must be at least 6 characters');
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Password',
+        text: 'Password must be at least 6 characters',
+        confirmButtonColor: '#667eea',
+        background: 'rgba(255, 255, 255, 0.95)',
+        backdrop: 'rgba(0, 0, 0, 0.5)'
+      });
       return;
     }
     
@@ -102,7 +121,14 @@ const App = () => {
       }
     } catch (err) {
       console.error('Registration failed:', err);
-      setAuthError(err.response?.data?.message || 'Registration failed. Please try again.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Registration Failed',
+        text: err.response?.data?.message || 'Registration failed. Please try again.',
+        confirmButtonColor: '#667eea',
+        background: 'rgba(255, 255, 255, 0.95)',
+        backdrop: 'rgba(0, 0, 0, 0.5)'
+      });
     }
   };
 
@@ -113,7 +139,6 @@ const App = () => {
     setIsAuthenticated(false);
     setLoginForm({ email: '', password: '' });
     setRegisterForm({ name: '', email: '', password: '', confirmPassword: '' });
-    setAuthError('');
   };
 
   // Handle create chat
@@ -140,14 +165,28 @@ const App = () => {
         console.log('All users response:', usersResponse.data);
 
         if (!usersResponse.data.success || !usersResponse.data.users || usersResponse.data.users.length === 0) {
-          alert('No users found in the database. Please create a user first.');
+          Swal.fire({
+            icon: 'error',
+            title: 'No Users Found',
+            text: 'No users found in the database. Please create a user first.',
+            confirmButtonColor: '#667eea',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdrop: 'rgba(0, 0, 0, 0.5)'
+          });
           return;
         }
 
         // Filter manually by email
         const foundUser = usersResponse.data.users.find(u => u.email === createChatForm.participantEmail);
         if (!foundUser) {
-          alert(`User not found with email: ${createChatForm.participantEmail}. Available users: ${usersResponse.data.users.map(u => u.email).join(', ')}`);
+          Swal.fire({
+            icon: 'error',
+            title: 'User Not Found',
+            text: `User not found with email: ${createChatForm.participantEmail}. Available users: ${usersResponse.data.users.map(u => u.email).join(', ')}`,
+            confirmButtonColor: '#667eea',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdrop: 'rgba(0, 0, 0, 0.5)'
+          });
           return;
         }
 
@@ -175,13 +214,34 @@ const App = () => {
         loadChats();
         setShowCreateChat(false);
         setCreateChatForm({ isGroupChat: false, chatName: '', participantEmail: '' });
-        alert('Chat created successfully!');
+        Swal.fire({
+          icon: 'success',
+          title: 'Chat Created',
+          text: 'Chat created successfully!',
+          confirmButtonColor: '#667eea',
+          background: 'rgba(255, 255, 255, 0.95)',
+          backdrop: 'rgba(0, 0, 0, 0.5)'
+        });
       } else {
-        alert('Failed to create chat: ' + chatResponse.data.message);
+        Swal.fire({
+          icon: 'error',
+          title: 'Creation Failed',
+          text: 'Failed to create chat: ' + chatResponse.data.message,
+          confirmButtonColor: '#667eea',
+          background: 'rgba(255, 255, 255, 0.95)',
+          backdrop: 'rgba(0, 0, 0, 0.5)'
+        });
       }
     } catch (err) {
       console.error('Create chat failed:', err);
-      alert('Failed to create chat. Please try again.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Failed to create chat. Please try again.',
+        confirmButtonColor: '#667eea',
+        background: 'rgba(255, 255, 255, 0.95)',
+        backdrop: 'rgba(0, 0, 0, 0.5)'
+      });
     }
   };
 
@@ -218,6 +278,7 @@ const App = () => {
       return () => clearTimeout(timeoutId);
     }
   }, [searchTerm, loadChats, isAuthenticated]);
+
 
   const handleSendMessage = async (text) => {
     if (text.trim() && activeChat) {
@@ -464,12 +525,6 @@ const App = () => {
           <h1>Chat Bloom 93</h1>
           <p>{showLogin ? 'Login to your account' : 'Create a new account'}</p>
           
-          {authError && (
-            <div className="auth-error">
-              {authError}
-            </div>
-          )}
-          
           {showLogin ? (
             <form onSubmit={handleLogin} className="auth-form">
               <div className="form-group">
@@ -493,7 +548,7 @@ const App = () => {
               <button type="submit">Login</button>
               <p className="auth-switch">
                 Don't have an account? 
-                <button type="button" onClick={() => {setShowLogin(false); setAuthError('');}}>
+                <button type="button" onClick={() => setShowLogin(false)}>
                   Register
                 </button>
               </p>
@@ -541,7 +596,7 @@ const App = () => {
               <button type="submit">Register</button>
               <p className="auth-switch">
                 Already have an account? 
-                <button type="button" onClick={() => {setShowLogin(true); setAuthError('');}}>
+                <button type="button" onClick={() => setShowLogin(true)}>
                   Login
                 </button>
               </p>
@@ -554,95 +609,20 @@ const App = () => {
 
   // Show error message if there's an error
   if (error) {
-    return (
-      <div className="app">
-        <button className="logout-btn" onClick={handleLogout}>
-          Logout
-        </button>
-        <div className="error-banner">
-          <span>{error}</span>
-          <button onClick={() => setError(null)}>×</button>
-        </div>
-        <Sidebar
-          chats={formattedChats}
-          activeChat={formattedActiveChat}
-          setActiveChat={handleChatSelect}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          isDarkMode={isDarkMode}
-          isOpen={sidebarOpen}
-          setIsOpen={setSidebarOpen}
-          onCreateChat={handleCreateChat}
-        />
-        <ChatWindow
-          chat={formattedActiveChat}
-          messages={formattedMessages}
-          onSendMessage={handleSendMessage}
-          isTyping={isTypingInChat}
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
-          onEditMessage={handleEditMessage}
-          onDeleteMessage={handleDeleteMessage}
-          onReplyMessage={handleReplyMessage}
-          onReactMessage={handleReactMessage}
-          onForwardMessage={handleForwardMessage}
-          replyingTo={replyingTo}
-          setReplyingTo={setReplyingTo}
-          onProfileClick={handleProfileClick}
-          onContactClick={handleContactClick}
-          onTyping={handleTyping}
-        />
-      </div>
-    );
-  }
-
-  // Show connection status if backend is not available
-  if (!backendAvailable) {
-    return (
-      <div className="app">
-        <button className="logout-btn" onClick={handleLogout}>
-          Logout
-        </button>
-        <div className="connection-status offline">
-          <span>🔴 Backend Offline - Demo Mode</span>
-        </div>
-        <Sidebar
-          chats={formattedChats}
-          activeChat={formattedActiveChat}
-          setActiveChat={handleChatSelect}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          isDarkMode={isDarkMode}
-          isOpen={sidebarOpen}
-          setIsOpen={setSidebarOpen}
-          onCreateChat={handleCreateChat}
-        />
-        <ChatWindow
-          chat={formattedActiveChat}
-          messages={formattedMessages}
-          onSendMessage={handleSendMessage}
-          isTyping={isTypingInChat}
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
-          onEditMessage={handleEditMessage}
-          onDeleteMessage={handleDeleteMessage}
-          onReplyMessage={handleReplyMessage}
-          onReactMessage={handleReactMessage}
-          onForwardMessage={handleForwardMessage}
-          replyingTo={replyingTo}
-          setReplyingTo={setReplyingTo}
-          onProfileClick={handleProfileClick}
-          onContactClick={handleContactClick}
-          onTyping={handleTyping}
-        />
-      </div>
-    );
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: error,
+      confirmButtonColor: '#667eea',
+      background: 'rgba(255, 255, 255, 0.95)',
+      backdrop: 'rgba(0, 0, 0, 0.5)'
+    }).then(() => setError(null));
   }
 
   return (
     <div className="app">
       <button className="logout-btn" onClick={handleLogout}>
-        <FaSignOutAlt /> Logout
+        <FaSignOutAlt />
       </button>
       <Sidebar
         chats={formattedChats}
