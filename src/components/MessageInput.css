@@ -1,0 +1,324 @@
+.message-input-container {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.message-form {
+  width: 100%;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 25px;
+  padding: 8px;
+  transition: all 0.2s ease;
+}
+
+.input-wrapper:focus-within {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.emoji-button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.2s ease;
+}
+
+.emoji-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+.emoji-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  transform: scale(1.1);
+}
+
+.message-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 15px;
+  outline: none;
+  padding: 8px 12px;
+}
+
+.message-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.send-button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  transform: rotate(-45deg);
+}
+
+.send-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.send-button.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: rotate(-45deg) scale(1.05);
+}
+
+.send-button:hover.active {
+  transform: rotate(-45deg) scale(1.1);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.send-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Voice Recording */
+.recording-indicator {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.recording-animation {
+  display: flex;
+  gap: 4px;
+}
+
+.recording-dot {
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  animation: recording-pulse 1.4s infinite;
+}
+
+.recording-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.recording-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes recording-pulse {
+  0%, 60%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: scale(1.5);
+    opacity: 0.5;
+  }
+}
+
+.recording-time {
+  color: #ef4444;
+  font-size: 14px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.stop-recording-btn {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stop-recording-btn:hover {
+  background: rgba(239, 68, 68, 0.3);
+  transform: translateY(-1px);
+}
+
+.voice-mode-btn,
+.voice-record-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.voice-mode-btn svg,
+.voice-record-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.voice-mode-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  transform: scale(1.1);
+}
+
+.voice-record-btn.recording {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  animation: recording-pulse 1.4s infinite;
+}
+
+.voice-record-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  transform: scale(1.05);
+}
+
+.voice-record-btn.recording:hover {
+  background: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+.file-share-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.file-share-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.file-share-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Light Theme */
+body.light .message-input-container {
+  background: rgba(255, 255, 255, 0.8);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body.light .input-wrapper {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body.light .input-wrapper:focus-within {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+body.light .emoji-button {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+body.light .emoji-button:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.8);
+}
+
+body.light .message-input {
+  color: #1f2937;
+}
+
+body.light .message-input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+body.light .send-button {
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.4);
+}
+
+body.light .send-button.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .message-input-container {
+    padding: 15px;
+  }
+  
+  .input-wrapper {
+    gap: 10px;
+    padding: 6px;
+  }
+  
+  .emoji-button,
+  .send-button,
+  .voice-mode-btn,
+  .voice-record-btn,
+  .file-share-btn {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .emoji-button svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .send-button svg,
+  .voice-mode-btn svg,
+  .voice-record-btn svg,
+  .file-share-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .message-input {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+}
