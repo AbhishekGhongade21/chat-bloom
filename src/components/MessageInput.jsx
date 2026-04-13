@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FaSmile, FaMicrophone, FaMicrophoneSlash, FaPaperclip, FaPaperPlane } from 'react-icons/fa';
+import { Smile, Mic, MicOff, Paperclip, Send } from 'lucide-react';
 import FileShare from './FileShare';
 import './MessageInput.css';
 
@@ -134,7 +134,7 @@ const MessageInput = ({ onSendMessage, onTyping }) => {
               console.log('Emoji picker clicked');
             }}
           >
-            <FaSmile />
+            <Smile size={16} strokeWidth={1.5} />
           </button>
           
           {!isVoiceMode ? (
@@ -154,7 +154,7 @@ const MessageInput = ({ onSendMessage, onTyping }) => {
                 onClick={toggleVoiceMode}
                 title="Voice message"
               >
-                <FaMicrophone />
+                <Mic size={16} strokeWidth={1.5} />
               </button>
             </>
           ) : (
@@ -167,7 +167,7 @@ const MessageInput = ({ onSendMessage, onTyping }) => {
               onTouchEnd={stopRecording}
               title="Hold to record"
             >
-              {isRecording ? <FaMicrophoneSlash /> : <FaMicrophone />}
+              {isRecording ? <MicOff size={16} strokeWidth={1.5} /> : <Mic size={16} strokeWidth={1.5} />}
             </button>
           )}
           
@@ -179,7 +179,7 @@ const MessageInput = ({ onSendMessage, onTyping }) => {
                 onClick={() => setShowFileShare(true)}
                 title="Share files"
               >
-                <FaPaperclip />
+                <Paperclip size={16} strokeWidth={1.5} />
               </button>
               
               <button 
@@ -187,7 +187,7 @@ const MessageInput = ({ onSendMessage, onTyping }) => {
                 className={`send-button ${message.trim() ? 'active' : ''}`}
                 disabled={!message.trim()}
               >
-                <FaPaperPlane />
+                <Send size={16} strokeWidth={1.5} />
               </button>
             </>
           )}

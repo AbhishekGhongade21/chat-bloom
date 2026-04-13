@@ -6,25 +6,29 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  z-index: 1000;
   z-index: 1000;
   animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .user-profile-modal {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  width: 90%;
-  max-width: 500px;
-  max-height: 80vh;
-  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(30px);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px 0 0 24px;
+  width: 450px;
+  max-width: 100%;
+  max-height: 100vh;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .profile-header {

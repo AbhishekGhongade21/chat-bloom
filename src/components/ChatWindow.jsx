@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import ChatHeader from './ChatHeader';
 import MessageBubble from './MessageBubble';
 import MessageInput from './MessageInput';
+import { MessageCircle, Menu } from 'lucide-react';
 import './ChatWindow.css';
 
 const ChatWindow = ({ 
@@ -44,10 +45,29 @@ const ChatWindow = ({
   if (!chat) {
     return (
       <div className="chat-window empty">
+        {!sidebarOpen && (
+          <button 
+            className="empty-menu-btn" 
+            onClick={() => setSidebarOpen(true)}
+            title="Open Menu"
+          >
+            <Menu size={24} strokeWidth={1.5} />
+          </button>
+        )}
         <div className="empty-state">
-          <div className="empty-icon">chat</div>
+          <div className="empty-icon">
+            <MessageCircle size={80} strokeWidth={1} />
+          </div>
           <h2>Welcome to Chat Bloom</h2>
           <p>Select a conversation to start messaging</p>
+          {!sidebarOpen && (
+            <button 
+              className="btn btn-primary open-conversations-btn" 
+              onClick={() => setSidebarOpen(true)}
+            >
+              Open Conversations
+            </button>
+          )}
         </div>
       </div>
     );

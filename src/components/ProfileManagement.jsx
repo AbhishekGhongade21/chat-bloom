@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaTimes, FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaComment, FaCamera, FaUpload, FaTimesCircle, FaCheckCircle, FaToggleOn, FaToggleOff } from 'react-icons/fa';
+import { X, User, Mail, Phone, MapPin, MessageCircle, Camera, Upload, ToggleRight, ToggleLeft, Eye, EyeOff } from 'lucide-react';
 import './ProfileManagement.css';
 import { userAPI } from '../services/api';
 
@@ -189,7 +189,7 @@ const ProfileManagement = ({ isOpen, onClose, onUpdate }) => {
         <div className="modal-header">
           <h3>Profile Settings</h3>
           <button className="close-btn" onClick={onClose}>
-            <FaTimes />
+            <X size={16} strokeWidth={1.5} />
           </button>
         </div>
 
@@ -225,7 +225,7 @@ const ProfileManagement = ({ isOpen, onClose, onUpdate }) => {
             <div className="profile-section">
               <form onSubmit={handleProfileUpdate} className="profile-form">
                 <div className="form-group">
-                  <label htmlFor="name"><FaUser /> Name</label>
+                  <label htmlFor="name"><User size={16} strokeWidth={1.5} style={{marginRight: '6px'}} /> Name</label>
                   <input
                     type="text"
                     id="name"
@@ -238,7 +238,7 @@ const ProfileManagement = ({ isOpen, onClose, onUpdate }) => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="email"><FaEnvelope /> Email</label>
+                  <label htmlFor="email"><Mail size={16} strokeWidth={1.5} style={{marginRight: '6px'}} /> Email</label>
                   <input
                     type="email"
                     id="email"
@@ -251,7 +251,7 @@ const ProfileManagement = ({ isOpen, onClose, onUpdate }) => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="bio"><FaComment /> Bio</label>
+                  <label htmlFor="bio"><MessageCircle size={16} strokeWidth={1.5} style={{marginRight: '6px'}} /> Bio</label>
                   <textarea
                     id="bio"
                     name="bio"
@@ -265,7 +265,7 @@ const ProfileManagement = ({ isOpen, onClose, onUpdate }) => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="phone"><FaPhone /> Phone</label>
+                  <label htmlFor="phone"><Phone size={16} strokeWidth={1.5} style={{marginRight: '6px'}} /> Phone</label>
                   <input
                     type="tel"
                     id="phone"
@@ -277,7 +277,7 @@ const ProfileManagement = ({ isOpen, onClose, onUpdate }) => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="location"><FaMapMarkerAlt /> Location</label>
+                  <label htmlFor="location"><MapPin size={16} strokeWidth={1.5} style={{marginRight: '6px'}} /> Location</label>
                   <input
                     type="text"
                     id="location"
@@ -289,7 +289,7 @@ const ProfileManagement = ({ isOpen, onClose, onUpdate }) => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="status"><FaComment /> Status</label>
+                  <label htmlFor="status"><MessageCircle size={16} strokeWidth={1.5} style={{marginRight: '6px'}} /> Status</label>
                   <div className="status-selector">
                     <select
                       id="status"
@@ -334,7 +334,7 @@ const ProfileManagement = ({ isOpen, onClose, onUpdate }) => {
               </div>
 
               <div className="photo-upload">
-                <h4><FaCamera /> Upload New Photo</h4>
+                <h4><Camera size={16} strokeWidth={1.5} style={{marginRight: '6px'}} /> Upload New Photo</h4>
                 <div className="upload-area">
                   <input
                     type="file"
@@ -344,7 +344,7 @@ const ProfileManagement = ({ isOpen, onClose, onUpdate }) => {
                     style={{ display: 'none' }}
                   />
                   <label htmlFor="profilePicture" className="upload-btn">
-                    <FaUpload /> Choose Photo
+                    <Upload size={16} strokeWidth={1.5} style={{marginRight: '6px'}} /> Choose Photo
                   </label>
                   <small>Allowed: JPEG, PNG, GIF, WebP (Max 5MB)</small>
                 </div>
@@ -381,7 +381,7 @@ const ProfileManagement = ({ isOpen, onClose, onUpdate }) => {
               
               <div className="privacy-item">
                 <div className="privacy-info">
-                  <h5><FaEye /> Show Last Seen</h5>
+                  <h5><Eye size={16} strokeWidth={1.5} style={{marginRight: '6px'}} /> Show Last Seen</h5>
                   <p>Let others see when you were last active</p>
                 </div>
                 <label className="switch">
@@ -392,14 +392,14 @@ const ProfileManagement = ({ isOpen, onClose, onUpdate }) => {
                     onChange={handleInputChange}
                   />
                   <span className="slider">
-                    {profileData.showLastSeen ? <FaToggleOn /> : <FaToggleOff />}
+                    {profileData.showLastSeen ? <ToggleRight size={18} strokeWidth={1.5} /> : <ToggleLeft size={18} strokeWidth={1.5} />}
                   </span>
                 </label>
               </div>
 
               <div className="privacy-item">
                 <div className="privacy-info">
-                  <h5><FaEyeSlash /> Show Online Status</h5>
+                  <h5><EyeOff size={16} strokeWidth={1.5} style={{marginRight: '6px'}} /> Show Online Status</h5>
                   <p>Let others see when you're online</p>
                 </div>
                 <label className="switch">
@@ -410,7 +410,7 @@ const ProfileManagement = ({ isOpen, onClose, onUpdate }) => {
                     onChange={handleInputChange}
                   />
                   <span className="slider">
-                    {profileData.showOnlineStatus ? <FaToggleOn /> : <FaToggleOff />}
+                    {profileData.showOnlineStatus ? <ToggleRight size={18} strokeWidth={1.5} /> : <ToggleLeft size={18} strokeWidth={1.5} />}
                   </span>
                 </label>
               </div>

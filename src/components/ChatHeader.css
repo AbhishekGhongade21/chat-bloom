@@ -1,8 +1,8 @@
 .chat-header {
   height: 70px;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(25px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -16,8 +16,8 @@
 }
 
 .menu-button {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border: none;
   background: transparent;
   color: rgba(255, 255, 255, 0.7);
@@ -30,10 +30,6 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.menu-button svg {
-  width: 20px;
-  height: 20px;
-}
 
 .menu-button:hover {
   background: rgba(255, 255, 255, 0.1);
@@ -80,15 +76,18 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 3px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(0, 0, 0, 0.5);
 }
 
 .online-indicator.online {
   background: #4ade80;
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.8);
+  animation: neonPulse 2s infinite;
 }
 
 .online-indicator.offline {
   background: #6b7280;
+  box-shadow: 0 0 8px rgba(107, 114, 128, 0.5);
 }
 
 .user-details {
@@ -127,10 +126,6 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.profile-button svg {
-  width: 16px;
-  height: 16px;
-}
 
 .profile-button:hover {
   background: rgba(255, 255, 255, 0.1);
@@ -149,8 +144,8 @@
 }
 
 .header-button {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border: none;
   background: transparent;
   color: rgba(255, 255, 255, 0.7);
@@ -163,10 +158,6 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.header-button svg {
-  width: 20px;
-  height: 20px;
-}
 
 .header-button:hover {
   background: rgba(255, 255, 255, 0.1);

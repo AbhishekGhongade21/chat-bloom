@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaTimes, FaEdit, FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendar, FaComment, FaImage, FaCog, FaVolumeMute, FaVolumeUp, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { X, Edit2 } from 'lucide-react';
 import './UserProfile.css';
 
 const UserProfile = ({ user, isOpen, onClose, onUpdateStatus, onEditProfile, isOwnProfile = false }) => {
@@ -90,17 +90,17 @@ const UserProfile = ({ user, isOpen, onClose, onUpdateStatus, onEditProfile, isO
                 <div className="status-display" onClick={() => setIsEditingStatus(true)}>
                   <span>{getStatusDisplay().emoji}</span>
                   <span>{statusMessage || 'Happy'}</span>
-                  <button className="edit-status-btn"><FaEdit /></button>
+                  <button className="edit-status-btn"><Edit2 size={16} strokeWidth={1.5} /></button>
                 </div>
               )}
             </div>
           </div>
           <div className="profile-actions">
             <button className="edit-profile-btn" onClick={onEditProfile}>
-              <FaEdit /> Edit Profile
+              <Edit2 size={16} strokeWidth={1.5} /> Edit Profile
             </button>
             <button className="close-profile-btn" onClick={onClose}>
-              <FaTimes />
+              <X size={16} strokeWidth={1.5} />
             </button>
           </div>
         </div>

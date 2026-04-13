@@ -8,14 +8,34 @@
 
 /* Text rendering fixes - more targeted approach */
 body {
-  letter-spacing: normal;
-  word-spacing: normal;
-  text-rendering: optimizeLegibility;
+  margin: 0;
+  padding: 0;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  letter-spacing: -0.2px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow: hidden; /* Prevent body scroll */
 }
 
-/* Only apply to text elements that might have overlap issues */
+/* Invisible custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
 .message-text, .chat-name, .user-name, .last-message, .message-sender {
   white-space: normal;
   overflow-wrap: break-word;
@@ -81,17 +101,6 @@ div, span, p, h1, h2, h3, h4, h5, h6 {
   align-items: center;
 }
 
-body {
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-  overflow: hidden;
-  letter-spacing: normal;
-  word-spacing: normal;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
 #root {
   width: 100%;
@@ -102,11 +111,17 @@ body {
 /* Light Theme */
 body.light {
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background-size: 200% 200%;
+  animation: gradientBG 15s ease infinite;
+  color: #1f2937;
 }
 
 /* Dark Theme */
 body.dark {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+  background-size: 200% 200%;
+  animation: gradientBG 15s ease infinite;
+  color: #f3f4f6;
 }
 
 /* Scrollbar Styling */
@@ -282,6 +297,50 @@ html {
   100% {
     background-position: 200% 0;
   }
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+.error, .invalid {
+  animation: shake 0.4s ease-in-out;
+}
+
+svg.lucide {
+  opacity: 0.7;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:hover svg.lucide {
+  opacity: 1;
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 8px rgba(102, 126, 234, 0.4));
+}
+
+button:active svg.lucide {
+  transform: scale(0.96);
+}
+
+@keyframes neonPulse {
+  0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
 }
 
 .fade-in {

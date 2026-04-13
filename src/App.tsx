@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FaSignOutAlt } from 'react-icons/fa';
-import Swal from 'sweetalert2';
+import { LogOut } from 'lucide-react';
+import { Toaster, toast } from 'sonner';
 import Sidebar from './components/Sidebar';
 import ChatWindow from './components/ChatWindow';
 import UserProfile from './components/UserProfile';
@@ -65,14 +65,7 @@ const App = () => {
       }
     } catch (err) {
       console.error('Login failed:', err);
-      Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
-        text: err.response?.data?.message || 'Login failed. Please check your credentials.',
-        confirmButtonColor: '#667eea',
-        background: 'rgba(255, 255, 255, 0.95)',
-        backdrop: 'rgba(0, 0, 0, 0.5)'
-      });
+      toast.error(err.response?.data?.message || 'Login failed. Please check your credentials.');
     }
   };
 
@@ -81,26 +74,12 @@ const App = () => {
     e.preventDefault();
     
     if (registerForm.password !== registerForm.confirmPassword) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Password Mismatch',
-        text: 'Passwords do not match',
-        confirmButtonColor: '#667eea',
-        background: 'rgba(255, 255, 255, 0.95)',
-        backdrop: 'rgba(0, 0, 0, 0.5)'
-      });
+      toast.error('Passwords do not match');
       return;
     }
     
     if (registerForm.password.length < 6) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Invalid Password',
-        text: 'Password must be at least 6 characters',
-        confirmButtonColor: '#667eea',
-        background: 'rgba(255, 255, 255, 0.95)',
-        backdrop: 'rgba(0, 0, 0, 0.5)'
-      });
+      toast.error('Password must be at least 6 characters');
       return;
     }
     
@@ -121,14 +100,7 @@ const App = () => {
       }
     } catch (err) {
       console.error('Registration failed:', err);
-      Swal.fire({
-        icon: 'error',
-        title: 'Registration Failed',
-        text: err.response?.data?.message || 'Registration failed. Please try again.',
-        confirmButtonColor: '#667eea',
-        background: 'rgba(255, 255, 255, 0.95)',
-        backdrop: 'rgba(0, 0, 0, 0.5)'
-      });
+      toast.error(err.response?.data?.message || 'Registration failed. Please try again.');
     }
   };
 
@@ -165,28 +137,14 @@ const App = () => {
         console.log('All users response:', usersResponse.data);
 
         if (!usersResponse.data.success || !usersResponse.data.users || usersResponse.data.users.length === 0) {
-          Swal.fire({
-            icon: 'error',
-            title: 'No Users Found',
-            text: 'No users found in the database. Please create a user first.',
-            confirmButtonColor: '#667eea',
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdrop: 'rgba(0, 0, 0, 0.5)'
-          });
+          toast.error('No users found in the database. Please create a user first.');
           return;
         }
 
         // Filter manually by email
         const foundUser = usersResponse.data.users.find(u => u.email === createChatForm.participantEmail);
         if (!foundUser) {
-          Swal.fire({
-            icon: 'error',
-            title: 'User Not Found',
-            text: `User not found with email: ${createChatForm.participantEmail}. Available users: ${usersResponse.data.users.map(u => u.email).join(', ')}`,
-            confirmButtonColor: '#667eea',
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdrop: 'rgba(0, 0, 0, 0.5)'
-          });
+          toast.error(`User not found with email: ${createChatForm.participantEmail}. Available users: ${usersResponse.data.users.map(u => u.email).join(', ')}`);
           return;
         }
 
@@ -214,34 +172,13 @@ const App = () => {
         loadChats();
         setShowCreateChat(false);
         setCreateChatForm({ isGroupChat: false, chatName: '', participantEmail: '' });
-        Swal.fire({
-          icon: 'success',
-          title: 'Chat Created',
-          text: 'Chat created successfully!',
-          confirmButtonColor: '#667eea',
-          background: 'rgba(255, 255, 255, 0.95)',
-          backdrop: 'rgba(0, 0, 0, 0.5)'
-        });
+        toast.success('Chat created successfully!');
       } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Creation Failed',
-          text: 'Failed to create chat: ' + chatResponse.data.message,
-          confirmButtonColor: '#667eea',
-          background: 'rgba(255, 255, 255, 0.95)',
-          backdrop: 'rgba(0, 0, 0, 0.5)'
-        });
+        toast.error('Failed to create chat: ' + chatResponse.data.message);
       }
     } catch (err) {
       console.error('Create chat failed:', err);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Failed to create chat. Please try again.',
-        confirmButtonColor: '#667eea',
-        background: 'rgba(255, 255, 255, 0.95)',
-        backdrop: 'rgba(0, 0, 0, 0.5)'
-      });
+      toast.error('Failed to create chat. Please try again.');
     }
   };
 
@@ -269,7 +206,6 @@ const App = () => {
     document.body.className = isDarkMode ? 'dark' : 'light';
   }, [isDarkMode]);
 
-  // Handle search
   useEffect(() => {
     if (isAuthenticated) {
       const timeoutId = setTimeout(() => {
@@ -278,6 +214,13 @@ const App = () => {
       return () => clearTimeout(timeoutId);
     }
   }, [searchTerm, loadChats, isAuthenticated]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      setError(null);
+    }
+  }, [error, setError]);
 
 
   const handleSendMessage = async (text) => {
@@ -521,6 +464,7 @@ const App = () => {
   if (!isAuthenticated) {
     return (
       <div className="login-screen">
+        <Toaster theme={isDarkMode ? 'dark' : 'light'} richColors position="top-center" />
         <div className="login-container">
           <h1>Chat Bloom 93</h1>
           <p>{showLogin ? 'Login to your account' : 'Create a new account'}</p>
@@ -607,22 +551,11 @@ const App = () => {
     );
   }
 
-  // Show error message if there's an error
-  if (error) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: error,
-      confirmButtonColor: '#667eea',
-      background: 'rgba(255, 255, 255, 0.95)',
-      backdrop: 'rgba(0, 0, 0, 0.5)'
-    }).then(() => setError(null));
-  }
-
   return (
     <div className="app">
+      <Toaster theme={isDarkMode ? 'dark' : 'light'} richColors position="top-center" />
       <button className="logout-btn" onClick={handleLogout}>
-        <FaSignOutAlt />
+        <LogOut size={16} strokeWidth={1.5} />
       </button>
       <Sidebar
         chats={formattedChats}
@@ -631,6 +564,7 @@ const App = () => {
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         isDarkMode={isDarkMode}
+        setIsDarkMode={setIsDarkMode}
         isOpen={sidebarOpen}
         setIsOpen={setSidebarOpen}
         onCreateChat={handleCreateChat}

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FaSmile, FaReply, FaEdit, FaShare, FaTrash, FaPlay, FaPause, FaDownload, FaImage, FaFileAudio, FaFileVideo, FaFile } from 'react-icons/fa';
+import { SmilePlus, Reply, Edit2, Forward, Trash2, Play, Pause, Download, Image, FileAudio, FileVideo, FileText } from 'lucide-react';
 import './MessageBubble.css';
 
 const MessageBubble = ({ 
@@ -218,7 +218,7 @@ const MessageBubble = ({
                 <audio ref={audioRef} src={message.audioUrl} />
                 <div className="voice-controls">
                   <button onClick={handlePlayPause} className="voice-play-btn">
-                    {isPlaying ? <FaPause /> : <FaPlay />}
+                    {isPlaying ? <Pause size={14} strokeWidth={1.5} /> : <Play size={14} strokeWidth={1.5} />}
                   </button>
                   <div className="voice-progress" onClick={handleSeek}>
                     <div className="voice-progress-bar">
@@ -232,7 +232,7 @@ const MessageBubble = ({
                     {formatTime(currentTime)} / {formatTime(duration)}
                   </span>
                   <button onClick={() => handleDownload(message.audioUrl, 'voice-message.mp3')} className="voice-download-btn">
-                    <FaDownload />
+                    <Download size={14} strokeWidth={1.5} />
                   </button>
                 </div>
               </div>
@@ -244,7 +244,7 @@ const MessageBubble = ({
                 <img src={message.imageUrl} alt="Shared image" className="message-image" />
                 <div className="media-actions">
                   <button onClick={() => handleDownload(message.imageUrl, 'image.jpg')} className="media-download-btn">
-                    <FaDownload />
+                    <Download size={14} strokeWidth={1.5} />
                   </button>
                 </div>
               </div>
@@ -256,7 +256,7 @@ const MessageBubble = ({
                 <video ref={videoRef} src={message.videoUrl} className="message-video" />
                 <div className="video-controls">
                   <button onClick={handleVideoPlayPause} className="video-play-btn">
-                    {isPlaying ? <FaPause /> : <FaPlay />}
+                    {isPlaying ? <Pause size={14} strokeWidth={1.5} /> : <Play size={14} strokeWidth={1.5} />}
                   </button>
                   <div className="video-progress" onClick={handleVideoSeek}>
                     <div className="video-progress-bar">
@@ -270,7 +270,7 @@ const MessageBubble = ({
                     {formatTime(currentTime)} / {formatTime(duration)}
                   </span>
                   <button onClick={() => handleDownload(message.videoUrl, 'video.mp4')} className="video-download-btn">
-                    <FaDownload />
+                    <Download size={14} strokeWidth={1.5} />
                   </button>
                 </div>
               </div>
@@ -280,14 +280,14 @@ const MessageBubble = ({
             {message.fileUrl && (
               <div className="file-container">
                 <div className="file-info">
-                  <FaFile className="file-icon" />
+                  <FileText className="file-icon" size={20} strokeWidth={1.5} />
                   <div className="file-details">
                     <p className="file-name">{message.fileName || 'File'}</p>
                     <p className="file-size">{message.fileSize || 'Unknown size'}</p>
                   </div>
                 </div>
                 <button onClick={() => handleDownload(message.fileUrl, message.fileName || 'file')} className="file-download-btn">
-                  <FaDownload />
+                  <Download size={14} strokeWidth={1.5} />
                 </button>
               </div>
             )}
@@ -317,22 +317,22 @@ const MessageBubble = ({
       {showActions && (
         <div className="message-actions">
           <button onClick={() => setShowReactions(!showReactions)} className="action-btn react-btn" title="React">
-            <FaSmile />
+            <SmilePlus size={16} strokeWidth={1.5} />
           </button>
           <button onClick={handleReply} className="action-btn reply-btn" title="Reply">
-            <FaReply />
+            <Reply size={16} strokeWidth={1.5} />
           </button>
           {isSent && (
             <button onClick={handleEdit} className="action-btn edit-btn" title="Edit">
-              <FaEdit />
+              <Edit2 size={16} strokeWidth={1.5} />
             </button>
           )}
           <button onClick={handleForward} className="action-btn forward-btn" title="Forward">
-            <FaShare />
+            <Forward size={16} strokeWidth={1.5} />
           </button>
           {isSent && (
             <button onClick={handleDelete} className="action-btn delete-btn" title="Delete">
-              <FaTrash />
+              <Trash2 size={16} strokeWidth={1.5} />
             </button>
           )}
         </div>

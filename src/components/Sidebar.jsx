@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaUser, FaBars, FaPlus, FaTimes, FaSun, FaMoon, FaSearch } from 'react-icons/fa';
+import { User, Menu, Plus, X, Sun, Moon, Search, MessageCircle } from 'lucide-react';
 import './Sidebar.css';
 
 const Sidebar = ({
@@ -28,25 +28,25 @@ const Sidebar = ({
       <div className="sidebar-header">
         <div className="logo">
           <div className="logo-icon">
-            <span>Chat</span>
+            <MessageCircle size={20} strokeWidth={1.5} />
           </div>
           <h2>Bloom</h2>
         </div>
         <div className="sidebar-controls">
           <button className="profile-btn" onClick={onProfileClick}>
-            <FaUser />
+            <User size={16} strokeWidth={1.5} />
           </button>
           <button className="theme-toggle" onClick={handleThemeToggle}>
-            {isDarkMode ? <FaSun /> : <FaMoon />}
+            {isDarkMode ? <Sun size={16} strokeWidth={1.5} /> : <Moon size={16} strokeWidth={1.5} />}
           </button>
           <button className="create-chat-btn" onClick={onCreateChat}>
-            <FaPlus />
+            <Plus size={16} strokeWidth={1.5} />
           </button>
           <button
             className="menu-toggle"
             onClick={() => setIsOpen(!isOpen)}
           >
-            {isOpen ? <FaTimes /> : <FaBars />}
+            {isOpen ? <X size={16} strokeWidth={1.5} /> : <Menu size={16} strokeWidth={1.5} />}
           </button>
         </div>
       </div>
@@ -59,7 +59,7 @@ const Sidebar = ({
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
         />
-        <div className="search-icon"><FaSearch /></div>
+        <div className="search-icon"><Search size={16} strokeWidth={1.5} /></div>
       </div>
 
       <div className="chats-list">

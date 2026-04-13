@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaBars, FaPhone, FaVideo, FaUser, FaEllipsisV, FaInfoCircle } from 'react-icons/fa';
+import { Menu, Phone, Video, User, MoreVertical, Info } from 'lucide-react';
 import './ChatHeader.css';
 
 const ChatHeader = ({ chat, sidebarOpen, setSidebarOpen, onProfileClick, onContactClick }) => {
@@ -10,7 +10,7 @@ const ChatHeader = ({ chat, sidebarOpen, setSidebarOpen, onProfileClick, onConta
           className="menu-button"
           onClick={() => setSidebarOpen(!sidebarOpen)}
         >
-          <FaBars />
+          <Menu size={18} strokeWidth={1.5} />
         </button>
         
         <div className="user-info">
@@ -34,23 +34,23 @@ const ChatHeader = ({ chat, sidebarOpen, setSidebarOpen, onProfileClick, onConta
             className="profile-button"
             onClick={onProfileClick}
           >
-            <FaInfoCircle />
+            <Info size={18} strokeWidth={1.5} />
           </button>
         </div>
       </div>
       
       <div className="header-right">
         <button className="header-button">
-          <FaPhone />
+          <Phone size={18} strokeWidth={1.5} />
         </button>
         <button className="header-button">
-          <FaVideo />
+          <Video size={18} strokeWidth={1.5} />
         </button>
         <button className="header-button" onClick={onContactClick}>
-          <FaUser />
+          <User size={18} strokeWidth={1.5} />
         </button>
         <button className="header-button">
-          <FaEllipsisV />
+          <MoreVertical size={18} strokeWidth={1.5} />
         </button>
       </div>
     </div>
