@@ -15,7 +15,7 @@ const useChat = () => {
   // Check backend availability
   const checkBackendAvailability = useCallback(async () => {
     try {
-      const healthUrl = `${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000'}/health`;
+      const healthUrl = `https://backendofchatbloom.onrender.com/health`;
       console.log('Checking backend availability at:', healthUrl);
       
       const response = await fetch(healthUrl, {

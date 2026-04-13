@@ -13,7 +13,7 @@ class SocketService {
       return this.socket;
     }
 
-    this.socket = io(import.meta.env.VITE_SOCKET_URL || 'https://backendofchatbloom.onrender.com', {
+    this.socket = io('https://backendofchatbloom.onrender.com', {
       auth: {
         token
       }
